@@ -34,7 +34,7 @@ public class tedPageTest extends config {
     public void setup() throws ATUTestRecorderException {
         DateFormat dateFormat = new SimpleDateFormat("yy-MM-dd HH-mm-ss");
         Date date = new Date();
-        recorder = new ATUTestRecorder("G:\\testing\\automation projects\\google play\\videos",
+        recorder = new ATUTestRecorder("videos",
                 "TestVideo-"+dateFormat.format(date),false);
 
         chooseBrowser("firefox");

@@ -13,7 +13,7 @@ public class appsPage {
     public void openCategory(){
         driver.findElement(By.xpath("//*[@id=\"action-dropdown-parent-Categories\"]/span[2]")).click();
         driver.findElement(By.xpath("//*[@id=\"action-dropdown-children-Categories\"]/div/ul/li[1]/ul/li[11]")).click();
-        String expectedUrl = "https://play.google.com/store/apps?hl=en";
+        String expectedUrl = "https://play.google.com/store/apps/category/EDUCATION?hl=en";
         Assert.assertEquals(expectedUrl, driver.getCurrentUrl());
     }
 }

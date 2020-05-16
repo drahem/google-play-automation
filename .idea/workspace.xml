@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="e19d074a-f8b9-4db6-82f2-3938d5b53f90" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ProjectId" id="1c0AIuc1v30hrjD1wWtND5KrDiC" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../google play/external JARs/ATUTestRecorder_2.1" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e19d074a-f8b9-4db6-82f2-3938d5b53f90" name="Default Changelist" comment="" />
+      <created>1589655060739</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1589655060739</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="1786" y="-9" key="FileChooserDialogImpl" timestamp="1589655185387">
+      <screen x="1366" y="-256" width="1280" height="984" />
+    </state>
+    <state x="1786" y="-9" key="FileChooserDialogImpl/0.0.1366.728/1366.-256.1280.984@1366.-256.1280.984" timestamp="1589655185387" />
+    <state x="1486" y="-189" key="SettingsEditor" timestamp="1589655187551">
+      <screen x="1366" y="-256" width="1280" height="984" />
+    </state>
+    <state x="1486" y="-189" key="SettingsEditor/0.0.1366.728/1366.-256.1280.984@1366.-256.1280.984" timestamp="1589655187551" />
+    <state x="1710" y="130" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1589655237511">
+      <screen x="1366" y="-256" width="1280" height="984" />
+    </state>
+    <state x="1710" y="130" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1366.728/1366.-256.1280.984@1366.-256.1280.984" timestamp="1589655237511" />
+  </component>
+</project>

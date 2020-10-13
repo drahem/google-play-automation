@@ -1,0 +1,177 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Calculator</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">Business</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Calculator (Business)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Calculator</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    87.5%
+  </span>
+  <span class="absValue">
+    (35/ 40)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package Business;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import Common.Globals;
+<i>4</i>&nbsp;import Contracts.IArithmetic;
+<i>5</i>&nbsp;import Contracts.ICalculator;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import java.lang.reflect.InvocationTargetException;
+<i>8</i>&nbsp;import java.util.regex.Matcher;
+<i>9</i>&nbsp;import java.util.regex.Pattern;
+<i>10</i>&nbsp;
+<b class="fc"><i>11</i>&nbsp;public class Calculator implements ICalculator</b>
+<i>12</i>&nbsp;{
+<i>13</i>&nbsp;    @Override
+<i>14</i>&nbsp;    public boolean pClose(String input)
+<i>15</i>&nbsp;    {
+<b class="fc"><i>16</i>&nbsp;        int brackets = 0;</b>
+<b class="fc"><i>17</i>&nbsp;        for(int i = 0; i &lt; input.length(); i++)</b>
+<i>18</i>&nbsp;        {
+<b class="fc"><i>19</i>&nbsp;            if(input.charAt(i) == &#39;(&#39;) brackets++;</b>
+<b class="fc"><i>20</i>&nbsp;            else if (input.charAt(i) == &#39;)&#39;) brackets--;</b>
+<b class="fc"><i>21</i>&nbsp;            if(brackets &lt; 0) return false;</b>
+<i>22</i>&nbsp;        }
+<b class="fc"><i>23</i>&nbsp;        return brackets == 0;</b>
+<i>24</i>&nbsp;    }
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    @Override
+<i>27</i>&nbsp;    public Double compute(String input) {
+<b class="fc"><i>28</i>&nbsp;        return Calculate(input,0);</b>
+<i>29</i>&nbsp;    }
+<i>30</i>&nbsp;    private Double Calculate(String input, int num)
+<i>31</i>&nbsp;    {
+<b class="fc"><i>32</i>&nbsp;        Double result = null;</b>
+<i>33</i>&nbsp;        String next;
+<b class="fc"><i>34</i>&nbsp;        Pattern filter = Pattern.compile(Globals.Pemdas.get(num));</b>
+<b class="fc"><i>35</i>&nbsp;        Matcher calcMatch = filter.matcher(input);</b>
+<b class="fc"><i>36</i>&nbsp;        if(!calcMatch.find())</b>
+<i>37</i>&nbsp;        {
+<b class="fc"><i>38</i>&nbsp;            if(num &lt; 3)</b>
+<i>39</i>&nbsp;            {
+<b class="fc"><i>40</i>&nbsp;                return Calculate(input, num+1);</b>
+<i>41</i>&nbsp;            }
+<b class="fc"><i>42</i>&nbsp;            return null;</b>
+<i>43</i>&nbsp;        }
+<b class="fc"><i>44</i>&nbsp;        if(num == 0)</b>
+<i>45</i>&nbsp;        {
+<b class="fc"><i>46</i>&nbsp;            Double pSol = Calculate(calcMatch.group(2), 1);</b>
+<b class="fc"><i>47</i>&nbsp;            if(pSol !=null)</b>
+<i>48</i>&nbsp;            {
+<b class="fc"><i>49</i>&nbsp;                result = pSol;</b>
+<b class="fc"><i>50</i>&nbsp;                next = input.substring(0, calcMatch.start()) + result.toString() + input.substring(calcMatch.end());</b>
+<i>51</i>&nbsp;            }
+<i>52</i>&nbsp;            else
+<i>53</i>&nbsp;            {
+<b class="nc"><i>54</i>&nbsp;                next = input.substring(0, calcMatch.start()) + input.substring(calcMatch.end());</b>
+<i>55</i>&nbsp;            }
+<b class="fc"><i>56</i>&nbsp;        }</b>
+<i>57</i>&nbsp;        else
+<i>58</i>&nbsp;        {
+<b class="fc"><i>59</i>&nbsp;            result = ExecuteOperation(calcMatch.group(2),calcMatch.group(1),calcMatch.group(3));</b>
+<b class="fc"><i>60</i>&nbsp;            next = input.substring(0, calcMatch.start()) + result.toString() + input.substring(calcMatch.end());</b>
+<i>61</i>&nbsp;        }
+<b class="fc"><i>62</i>&nbsp;        if(filter.matcher(next).find())</b>
+<i>63</i>&nbsp;        {
+<b class="fc"><i>64</i>&nbsp;            return Calculate(next, num);</b>
+<i>65</i>&nbsp;        }
+<i>66</i>&nbsp;
+<b class="fc"><i>67</i>&nbsp;        if(num &lt; 3)</b>
+<i>68</i>&nbsp;        {
+<b class="fc"><i>69</i>&nbsp;            Double nextResult = Calculate(next, num+1);</b>
+<b class="fc"><i>70</i>&nbsp;            if(nextResult !=null) return nextResult;</b>
+<i>71</i>&nbsp;        }
+<b class="fc"><i>72</i>&nbsp;        return result;</b>
+<i>73</i>&nbsp;    }
+<i>74</i>&nbsp;
+<i>75</i>&nbsp;    private Double ExecuteOperation(String operator, String x, String y)
+<i>76</i>&nbsp;    {
+<b class="fc"><i>77</i>&nbsp;        if(!Globals.ArithmeticMap.containsKey(operator))</b>
+<i>78</i>&nbsp;        {
+<b class="nc"><i>79</i>&nbsp;            return null;</b>
+<i>80</i>&nbsp;        }
+<b class="fc"><i>81</i>&nbsp;        String operationName = Globals.ArithmeticMap.get(operator);</b>
+<i>82</i>&nbsp;        try
+<i>83</i>&nbsp;        {
+<b class="fc"><i>84</i>&nbsp;            Class [] paramTypes = {double.class, double.class};</b>
+<b class="fc"><i>85</i>&nbsp;            Object [] paramValues = {Double.parseDouble(x), Double.parseDouble(y)};</b>
+<b class="fc"><i>86</i>&nbsp;                    IArithmetic arithmetic= (IArithmetic) Class.forName(operationName).getConstructor(paramTypes).newInstance(paramValues);</b>
+<b class="fc"><i>87</i>&nbsp;            return arithmetic.compute();</b>
+<i>88</i>&nbsp;        }
+<b class="nc"><i>89</i>&nbsp;         catch (InstantiationException | InvocationTargetException | NoSuchMethodException | IllegalAccessException | ClassNotFoundException e) {</b>
+<b class="nc"><i>90</i>&nbsp;            e.printStackTrace();</b>
+<i>91</i>&nbsp;        }
+<b class="nc"><i>92</i>&nbsp;        return null;</b>
+<i>93</i>&nbsp;    }
+<i>94</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-10-12 14:15</div>
+</div>
+</body>
+</html>

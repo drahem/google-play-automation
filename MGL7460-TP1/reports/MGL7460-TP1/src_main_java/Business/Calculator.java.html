@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Calculator.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">CalculatorTest (1) (Oct 13, 2020 10:12:16 PM)</a> &gt; <a href="../../index.html" class="el_group">MGL7460-TP1</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">Business</a> &gt; <span class="el_source">Calculator.java</span></div><h1>Calculator.java</h1><pre class="source lang-java linenums">package Business;
+
+import Common.Globals;
+import Contracts.IArithmetic;
+import Contracts.ICalculator;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+<span class="fc" id="L11">public class Calculator implements ICalculator</span>
+{
+    @Override
+    public boolean pClose(String input)
+    {
+<span class="fc" id="L16">        int brackets = 0;</span>
+<span class="fc bfc" id="L17" title="All 2 branches covered.">        for(int i = 0; i &lt; input.length(); i++)</span>
+        {
+<span class="fc bfc" id="L19" title="All 2 branches covered.">            if(input.charAt(i) == '(') brackets++;</span>
+<span class="fc bfc" id="L20" title="All 2 branches covered.">            else if (input.charAt(i) == ')') brackets--;</span>
+<span class="fc bfc" id="L21" title="All 2 branches covered.">            if(brackets &lt; 0) return false;</span>
+        }
+<span class="fc bfc" id="L23" title="All 2 branches covered.">        return brackets == 0;</span>
+    }
+
+    @Override
+    public Double compute(String input) {
+<span class="fc" id="L28">        return Calculate(input,0);</span>
+    }
+    private Double Calculate(String input, int num)
+    {
+<span class="fc" id="L32">        Double result = null;</span>
+        String next;
+<span class="fc" id="L34">        Pattern filter = Pattern.compile(Globals.Pemdas.get(num));</span>
+<span class="fc" id="L35">        Matcher calcMatch = filter.matcher(input);</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">        if(!calcMatch.find())</span>
+        {
+<span class="fc bfc" id="L38" title="All 2 branches covered.">            if(num &lt; 3)</span>
+            {
+<span class="fc" id="L40">                return Calculate(input, num+1);</span>
+            }
+<span class="fc" id="L42">            return null;</span>
+        }
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        if(num == 0)</span>
+        {
+<span class="fc" id="L46">            Double pSol = Calculate(calcMatch.group(2), 1);</span>
+<span class="pc bpc" id="L47" title="1 of 2 branches missed.">            if(pSol !=null)</span>
+            {
+<span class="fc" id="L49">                result = pSol;</span>
+<span class="fc" id="L50">                next = input.substring(0, calcMatch.start()) + result.toString() + input.substring(calcMatch.end());</span>
+<span class="fc" id="L51">            }</span>
+            else
+            {
+<span class="nc" id="L54">                next = input.substring(0, calcMatch.start()) + input.substring(calcMatch.end());</span>
+            }
+<span class="nc" id="L56">        }</span>
+        else
+        {
+<span class="fc" id="L59">            result = ExecuteOperation(calcMatch.group(2),calcMatch.group(1),calcMatch.group(3));</span>
+<span class="fc" id="L60">            next = input.substring(0, calcMatch.start()) + result.toString() + input.substring(calcMatch.end());</span>
+        }
+<span class="fc bfc" id="L62" title="All 2 branches covered.">        if(filter.matcher(next).find())</span>
+        {
+<span class="fc" id="L64">            return Calculate(next, num);</span>
+        }
+
+<span class="fc bfc" id="L67" title="All 2 branches covered.">        if(num &lt; 3)</span>
+        {
+<span class="fc" id="L69">            Double nextResult = Calculate(next, num+1);</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">            if(nextResult !=null) return nextResult;</span>
+        }
+<span class="fc" id="L72">        return result;</span>
+    }
+
+    private Double ExecuteOperation(String operator, String x, String y)
+    {
+<span class="pc bpc" id="L77" title="1 of 2 branches missed.">        if(!Globals.ArithmeticMap.containsKey(operator))</span>
+        {
+<span class="nc" id="L79">            return null;</span>
+        }
+<span class="fc" id="L81">        String operationName = Globals.ArithmeticMap.get(operator);</span>
+        try
+        {
+<span class="fc" id="L84">            Class [] paramTypes = {double.class, double.class};</span>
+<span class="fc" id="L85">            Object [] paramValues = {Double.parseDouble(x), Double.parseDouble(y)};</span>
+<span class="fc" id="L86">                    IArithmetic arithmetic= (IArithmetic) Class.forName(operationName).getConstructor(paramTypes).newInstance(paramValues);</span>
+<span class="fc" id="L87">            return arithmetic.compute();</span>
+        }
+<span class="nc" id="L89">         catch (InstantiationException | InvocationTargetException | NoSuchMethodException | IllegalAccessException | ClassNotFoundException e) {</span>
+<span class="nc" id="L90">            e.printStackTrace();</span>
+        }
+<span class="nc" id="L92">        return null;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>CalculatorTest (1) (Oct 13, 2020 10:12:16 PM)</div></body></html>
